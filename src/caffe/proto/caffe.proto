@@ -139,6 +139,7 @@ message SolverParameter {
   optional bool snapshot_diff = 16 [ default = false];
   // the mode solver will use: 0 for CPU and 1 for GPU. Use GPU in default.
   optional int32 solver_mode = 17 [default = 1];
+  optional uint32 communication_interval = 20;
 }
 
 // A message that stores the solver snapshots
