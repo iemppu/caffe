@@ -91,6 +91,13 @@ message LayerParameter {
   // point would be set as rand_skip * rand(0,1). Note that rand_skip should not
   // be larger than the number of keys in the leveldb.
   optional uint32 rand_skip = 53 [ default = 0 ];
+  
+  
+  enum AdaptiveLearningRateType {
+    ADA_GRAD = 0;
+    ADA_DEC = 1;
+  }
+  optional AdaptiveLearningRateType adaptive_learning_rate = 70;
 }
 
 message LayerConnection {
