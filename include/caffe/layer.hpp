@@ -116,23 +116,24 @@ template <typename Dtype>
 inline Dtype Layer<Dtype>::Backward(const vector<Blob<Dtype>*>& top,
     const bool propagate_down,
     vector<Blob<Dtype>*>* bottom) {
-  Dtype ret;
+  Dtype loss;
   switch (Caffe::mode()) {
   case Caffe::CPU:
-    ret = Backward_cpu(top, propagate_down, bottom);
+    loss = Backward_cpu(top, propagate_down, bottom);
     break;
   case Caffe::GPU:
-    ret = Backward_gpu(top, propagate_down, bottom);
+    loss = Backward_gpu(top, propagate_down, bottom);
     break;
   default:
     LOG(FATAL) << "Unknown caffe mode.";
   }
   if (layer_param_.regularizer_size() > 0) {
     for (int i = 0; i < layer_param_.regularizer_size(); ++i) {
-      ret += regularizers_[i]->Regularize(bottom->at(0));
+      Dtype regularization_loss = regularizers_[i]->Regularize(bottom->at(0));
+      loss += regularization_loss;
     }
   }
-  return ret;
+  return loss;
 };
 
 template <typename Dtype>
